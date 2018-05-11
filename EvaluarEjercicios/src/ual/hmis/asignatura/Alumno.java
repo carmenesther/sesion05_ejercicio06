@@ -26,7 +26,20 @@ public class Alumno {
 	}
 
 	public double calcularNotaActividad(String nombreActividad) {
-		throw new UnsupportedOperationException();
+		int puntTotal=0;
+		// Comprobamos si existe la actividad
+		for (Actividad a : actividadesAsignadas) {
+			// Coincide con la actividad mencionada
+			if(a.getNombre().equals(nombreActividad)){
+				// Comprueba los ejercicios que hay
+				for (Ejercicio e : a.getEjercicios()) {
+					puntTotal+=e.getPuntuacion();
+				}
+				a.setPuntuacionTotal(puntTotal);
+				break;
+			}
+		}
+		return puntTotal;
 	}
 
 }
