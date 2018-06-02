@@ -1,17 +1,29 @@
 package ual.hmis.asignatura;
 
-
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
 
+import ual.hmis.asignatura.Actividad;
+import ual.hmis.asignatura.Alumno;
+import ual.hmis.asignatura.Ejercicio;
 
+@RunWith(Parameterized.class)
+public class AlumnoParametrizadoTest {
 
-public class AlumnoTest {
-
+	private String nombre;
+	private int Salida;
+	private static double calculaNota;
+	private int n;
+	private Actividad a4;
 	Alumno alumno;
 	Actividad a1, a2, a3;
 
@@ -47,42 +59,31 @@ public class AlumnoTest {
 		alumno.setActividadesAsignadas(actividades);
 	}
 
-	@Test
-	public void calcularNotaActividadInexistenteDevuelve0() {
-		double actual = alumno.calcularNotaActividad("noexiste");
-		assertEquals(0, actual,0);
+	public AlumnoParametrizadoTest(String nombre,int SalidaNota,double calculanota, int n) {
+		this.nombre = nombre;
+		this.Salida= SalidaNota;
+		this.calculaNota=calculanota;
+		this.n=n;
+
 	}
 
-	@Test
-	public void calcularNotaActividadSinEjerciciosDevuelve0() {
-		double actual = alumno.calcularNotaActividad("actividad3");
-		assertEquals(0, actual, 0);
+	@Parameters
+	public static Collection<Object[]> addedNumbers() {
+		return Arrays.asList(new Object[][] {
+			{"noexiste",0,calculaNota,0},
+			{"actividad3",0, calculaNota,0},
+			{"actividad1",15, calculaNota,0},
+			{"actividad1",15, calculaNota,0},
+			{"actividad2",40, calculaNota,0},
+			{"actividad2",40, calculaNota,0},
+		});
 	}
 
-	@Test
-	public void calcularNotaActividadPiano1Devuelve5() {
-		double actual = alumno.calcularNotaActividad("actividad1");
-		assertEquals(15, actual, 0);
-	}
 
 	@Test
-	public void calcularNotaActividadPiano1NotaActualizada() {
-		alumno.calcularNotaActividad("actividad1");
-		double actual = a1.getPuntuacionTotal();
-		assertEquals(15, actual, 0);
+	public void testCalcularNota() {
+		assertEquals(Salida, alumno.calcularNotaActividad(nombre),0);
 	}
 
-	@Test
-	public void calcularNotaActividadPiano2Devuelve40() {
-		double actual = alumno.calcularNotaActividad("actividad2");
-		assertEquals(40, actual, 0);
-	}
-
-	@Test
-	public void calcularNotaActividadPiano2NotaActualizada() {
-		alumno.calcularNotaActividad("actividad2");
-		double actual = a2.getPuntuacionTotal();
-		assertEquals(40, actual, 0);
-	}
 
 }
